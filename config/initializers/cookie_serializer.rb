@@ -4,3 +4,4 @@ if Rails.env === 'production'
     Rails.application.config.session_store :cookie_store, key: '_finder_server', domain: 'finder_client'
   else
     Rails.application.config.session_store :cookie_store, key: '_finder_server'
+end
