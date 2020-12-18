@@ -5,4 +5,5 @@ class Car < ApplicationRecord
   validates_presence_of :description
   validates_presence_of :user_id
   validates :description, length: { maximum: 140 }
+  has_many :favorites, dependent: :destroy
 end

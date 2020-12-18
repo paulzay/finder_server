@@ -7,4 +7,5 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true
   validates :username, uniqueness: true, length: { minimum: 4 }
   has_many :cars
+  has_many :favorites, dependent: :destroy
 end
