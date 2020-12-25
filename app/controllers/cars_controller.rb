@@ -2,6 +2,8 @@
 
 class CarsController < ApplicationController
   before_action :find_car, only: %i[show update destroy]
+  before_action :logged_in?, only: %i[create destroy]
+
   def index
     @cars = Car.all
     render json: @cars
@@ -12,7 +14,10 @@ class CarsController < ApplicationController
   end
 
   def create
+    # @car = current_user.cars.build(car_params)
     @car = Car.new(car_params)
+    @car.user_id = current_user.id
+
     if @car.save
       render json: @car
     else
@@ -41,7 +46,7 @@ class CarsController < ApplicationController
   private
 
   def car_params
-    params.require(:car).permit(:user_id, :make, :model, :year, :description, :image_url)
+    params.require(:car).permit(:make, :model, :year, :description, :image_url)
   end
 
   def find_car
