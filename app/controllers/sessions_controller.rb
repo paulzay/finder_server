@@ -2,42 +2,26 @@
 
 class SessionsController < ApplicationController
   def create
-    @user = User.find_by(username: session_params[:username])
-
-    if @user&.authenticate(session_params[:password])
-      login!
+    user = User.find_by(username: session_params[:username])
+    if user&.authenticate(session_params[:password])
+      payload = { user_id: user.id }
+      token = encode_token(payload)
       render json: {
-        logged_in: true,
-        user: @user
+        user: user,
+        jwt: token
       }
     else
-      render json: {
-        status: 401,
-        errors: ['no such user, please try again']
-      }
+      render json: { status: 'error',
+                     message: 'no such user.' }
     end
   end
 
-  def is_logged_in?
-    if logged_in? && current_user
-      render json: {
-        logged_in: true,
-        user: current_user
-      }
+  def auto_login
+    if session_user
+      render json: session_user
     else
-      render json: {
-        logged_in: false,
-        message: 'no such user'
-      }
+      render json: { errors: 'No User Logged In.' }
     end
-  end
-
-  def destroy
-    logout!
-    render json: {
-      status: 200,
-      logged_out: true
-    }
   end
 
   private

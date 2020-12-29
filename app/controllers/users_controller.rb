@@ -30,17 +30,19 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      login!
+    user = User.new(user_params)
+    if user.save
+      payload = { user_id: user.id }
+      token = encode_token(payload)
       render json: {
-        status: 201,
-        user: @user
+        user: user.to_json,
+        jwt: token,
+        status: 201
       }
     else
       render json: {
         status: 500,
-        errors: @user.errors.full_messages
+        errors: user.errors.full_messages
       }
     end
   end
