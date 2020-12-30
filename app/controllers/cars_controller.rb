@@ -2,7 +2,7 @@
 
 class CarsController < ApplicationController
   before_action :find_car, only: %i[show update destroy]
-  before_action :logged_in?, only: %i[create destroy]
+  # before_action :logged_in?, only: %i[create destroy]
 
   def index
     @cars = Car.all
@@ -16,7 +16,6 @@ class CarsController < ApplicationController
   def create
     # @car = current_user.cars.build(car_params)
     @car = Car.new(car_params)
-    @car.user_id = current_user.id
 
     if @car.save
       render json: @car
@@ -53,3 +52,4 @@ class CarsController < ApplicationController
     @car = Car.find(params[:id])
   end
 end
+# @car.user_id = current_user.id

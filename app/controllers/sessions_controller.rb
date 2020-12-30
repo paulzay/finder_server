@@ -24,6 +24,11 @@ class SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    reset_session
+    render json: { message: 'Log Out Success' }
+  end
+
   private
 
   def session_params
