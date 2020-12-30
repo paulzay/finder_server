@@ -1,25 +1,26 @@
 # frozen_string_literal: true
 
 class FavoritesController < ApplicationController
-  before_action :set_car
+  before_action :set_car, only: %i[create destroy]
   before_action :find_favorite, only: [:destroy]
+  before_action :session_user
+
+  def index
+    if session_user
+      render json: session_user.favorites
+    else
+      render json: { errors: 'No User Logged In.' }
+    end
+  end
 
   def create
-    if already_favorited?
-      flash[:notice] = "You can't favorite more than once"
-    else
-      @car.favorites.create(user_id: current_user.id)
-    end
-    redirect_to car_path(@car)
+    favorite = Favorite.new(user_id: session_user.id, car_id: @car.id)
+    render json: 'we added to your faves' if favorite.save
   end
 
   def destroy
-    if !already_favorited?
-      flash[:notice] = 'Cannot unfavorite'
-    else
-      @favorite.destroy
-    end
-    redirect_to car_path(@car)
+    favorite = session_user.favorites.find(params[:id])
+    render json: 'removed from faves' if favorite.destroy
   end
 
   private

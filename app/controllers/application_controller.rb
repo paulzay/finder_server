@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   def session_user
     decoded_hash = decoded_token
-    unless decoded_hash.empty?
+    unless decoded_hash.blank?
       user_id = decoded_hash[0]['user_id']
       user = User.find_by id: user_id
     end
