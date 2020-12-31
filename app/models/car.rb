@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Car < ApplicationRecord
   belongs_to :user, dependent: :destroy
   validates_presence_of :description, :make, :year, :model, :image_url

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CarsController < ApplicationController
   before_action :find_car, only: %i[show update destroy]
   # before_action :logged_in?, only: %i[create destroy]

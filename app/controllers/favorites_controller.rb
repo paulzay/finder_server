@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class FavoritesController < ApplicationController
   before_action :set_car, only: %i[create destroy]
   before_action :find_favorite, only: [:destroy]
