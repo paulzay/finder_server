@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   post '/logout', to: 'sessions#destroy'
   get '/auto_login', to: 'sessions#auto_login'
+  get '*other', to: 'home#index'
 end
