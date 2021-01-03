@@ -7,9 +7,9 @@ class UsersController < ApplicationController
       }
     else
       render json: {
-        status: 500,
         errors: ['no users found']
-      }
+      },
+             status: 500
     end
   end
 
@@ -21,9 +21,9 @@ class UsersController < ApplicationController
       }
     else
       render json: {
-        status: 500,
         errors: ['user not found']
-      }
+      },
+             status: 500
     end
   end
 
@@ -34,14 +34,14 @@ class UsersController < ApplicationController
       token = encode_token(payload)
       render json: {
         user: user.to_json,
-        jwt: token,
-        status: 201
-      }
+        jwt: token
+      },
+             status: 201
     else
       render json: {
-        status: 500,
         errors: user.errors.full_messages
-      }
+      },
+             status: 500
     end
   end
 
