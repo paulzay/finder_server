@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
       }
     else
       render json: { status: 'error',
-                     message: 'no such user.' }
+                     message: 'Wrong email/password/username combination' }
     end
   end
 
