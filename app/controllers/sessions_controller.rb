@@ -14,14 +14,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  def auto_login
-    if session_user
-      render json: session_user
-    else
-      render json: { errors: 'No User Logged In.' }
-    end
-  end
-
   def destroy
     reset_session
     render json: { message: 'Log Out Success' }
