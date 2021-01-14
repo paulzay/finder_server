@@ -28,23 +28,33 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
-    if user.save
-      payload = { user_id: user.id }
+    @user = User.new(user_params)
+    if @user.save
+      payload = { user_id: @user.id }
       token = encode_token(payload)
       render json: {
-        user: user.to_json,
+        user: @user,
         jwt: token
       },
              status: 201
     else
       render json: {
-        errors: user.errors.full_messages
+        errors: @user.errors.full_messages
       },
              status: 500
     end
   end
+  def login
+    @user = User.find_by(username: params[:username])
 
+    if @user&.authenticate(params[:password])
+      payload = { user_id: @user.id }
+      token = encode_token(payload)
+      render json: { user: @user, jwt: token }
+    else
+      render json: { error: 'Invalid username or password' }
+    end
+  end
   private
 
   def user_params
