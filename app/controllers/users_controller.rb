@@ -41,9 +41,10 @@ class UsersController < ApplicationController
       render json: {
         errors: user.errors.full_messages
       }
-             
+
     end
   end
+
   def login
     @user = User.find_by(username: params[:username])
 
@@ -55,6 +56,7 @@ class UsersController < ApplicationController
       render json: { error: 'Invalid username or password' }
     end
   end
+
   private
 
   def user_params
