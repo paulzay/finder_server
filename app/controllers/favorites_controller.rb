@@ -12,8 +12,12 @@ class FavoritesController < ApplicationController
   end
 
   def create
-    favorite = Favorite.new(user_id: session_user.id, car_id: @car.id)
-    render json: 'we added to your faves' if favorite.save
+  	if already_favorited?
+  		render json: { error: 'Already Added to favorites' }
+    else
+    	favorite = Favorite.new(user_id: session_user.id, car_id: @car.id)
+    	render json: 'Added to favorites' if favorite.save
+    end
   end
 
   def destroy
@@ -32,6 +36,6 @@ class FavoritesController < ApplicationController
   end
 
   def already_favorited?
-    @favorite.where(user_id: current_user.id, car_id: params[:car_id]).exists?
+    Favorite.where(user_id: session_user.id, car_id: params[:car_id]).exists?
   end
 end
