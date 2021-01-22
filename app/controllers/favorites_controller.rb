@@ -12,11 +12,11 @@ class FavoritesController < ApplicationController
   end
 
   def create
-  	if already_favorited?
-  		render json: { error: 'Already Added to favorites' }
+    if already_favorited?
+      render json: { error: 'Already Added to favorites' }
     else
-    	favorite = Favorite.new(user_id: session_user.id, car_id: @car.id)
-    	render json: 'Added to favorites' if favorite.save
+      favorite = Favorite.new(user_id: session_user.id, car_id: @car.id)
+      render json: 'Added to favorites' if favorite.save
     end
   end
 
